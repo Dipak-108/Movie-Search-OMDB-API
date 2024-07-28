@@ -83,16 +83,19 @@ a {
     display: flex;
     margin-bottom: 0.2rem;
     cursor: pointer;
+    overflow: hidden;
     
 }
 
 .search_img_div{
-    width:40% ;
+    min-width: 90px;
+    max-width:90px ;
     height: 100%;
 }
 .search_img_div img{
     width: 100%;
-    height: 100%;
+    height: 95%;
+    /* object-fit: cover; */
     border: 0.2rem solid red ;
 }
 
@@ -100,6 +103,10 @@ a {
 
     h2,p{
         padding: 0.3rem;
+    }
+
+    h2{
+        font-size: 1.1rem;
     }
 
     
