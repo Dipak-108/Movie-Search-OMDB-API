@@ -15,21 +15,18 @@
             <a href=""><img src="./assets/img/notflix.png" alt="" /></a>
           </div>
 
-          <ul class="navbar_ul">
-            <a href="#"><li>Home</li></a>
-            <a href=""><li>About</li></a>
-          </ul>
           <div class="nav_search">
-            <input
-              type="text"
-              placeholder="Search"
-              id="search"
-              autocomplete="off"
-              
-            />
-            <span class="search_icon_span"
-              ><img src="./assets/img/search_icon.gif" alt=""
-            /></span>
+            <div class="input_group">
+              <input
+                type="text"
+                placeholder="Search"
+                id="search"
+                autocomplete="off"
+              />
+              <span class="search_icon_span"
+                ><img src="./assets/img/search_icon.gif" alt=""
+              /></span>
+            </div>
 
             <div class="search_result_div">
               <!-- <div class="search_result">
@@ -43,19 +40,37 @@
               </div>-->
             </div>
           </div>
-
-          <div class="hamburger_div">
-            <a href=""><img src="./assets/img/hamburger_menu.svg" alt="" /></a>
-          </div>
         </div>
       </nav>
     </header>
 
     <main>
-      <div>
-        <!-- <h1>
-          Search to view movies....
-        </h1> -->
+
+      <div id="searchToSeeMovies">
+        <h1>
+          Search to see Movies.........
+        </h1>
+      </div>
+      <div id="content_area">
+        <div class="poster_div">
+          <img src="" alt="" id="movie_poster" />
+        </div>
+
+        <div class="right_div">
+          <div class="right_details_top">
+            <h2 id="movieTitle"></h2>
+            <p id="movie_release"></p>
+          </div>
+          <p id="runtime"></p>
+          <p id="plot">
+            
+          </p>
+          <p id="actors">
+            
+          </p>
+          <p id="language"></p>
+          <p id="imdbRating"></p>
+        </div>
       </div>
     </main>
   </body>

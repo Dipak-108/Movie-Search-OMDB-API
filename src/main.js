@@ -1,7 +1,19 @@
 searchInput = document.getElementById("search");
 searchDiv = document.getElementsByClassName("search_result_div")[0];
-searchResult = document.getElementsByClassName("search_result")[0];
+searchResult = document.getElementsByClassName("search_result");
+searchToSeeMovies=document.getElementById("searchToSeeMovies");
 timeout = null;
+
+//movieDetail elements
+moviePoster=document.getElementById("movie_poster");
+movieTitle=document.getElementById("movieTitle");
+releaseDate=document.getElementById("movie_release");
+runTime=document.getElementById("runtime");
+plot=document.getElementById("plot");
+actors=document.getElementById("actors");
+language=document.getElementById("language");
+rating=document.getElementById("imdbRating");
+
 
 //while typing the movie name in search field
 searchInput.addEventListener("keydown", (event) => {
@@ -33,13 +45,14 @@ document.addEventListener("click", (event) => {
   }
 });
 
+//event triggers this and handles debouncing and call to getsearch async function
 function showResult(event) {
   clearTimeout(timeout);
 
   timeout = setTimeout(() => {
     value = event.target.value;
 
-    getData(value);
+    getSearch(value);
     searchDiv.style.display = "block";
 
     if (event.target.value === "") {
@@ -48,14 +61,15 @@ function showResult(event) {
   }, 400);
 }
 
-async function getData(searchQuery) {
-  abc = searchQuery;
+//gets search result through fetch API and displays below search bar
+async function getSearch(searchQuery) {
+  this.searchQuery = searchQuery;
 
-  if (abc.length < 1) {
+  if (this.searchQuery.length < 1) {
     return;
   }
 
-  const url = `http://www.omdbapi.com/?s=${abc}&apikey=fc1fef96`;
+  const url = `http://www.omdbapi.com/?s=${this.searchQuery}&apikey=fc1fef96`;
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -63,7 +77,7 @@ async function getData(searchQuery) {
     }
 
     const apiData = await response.json();
-   
+
     if (apiData.Response != "False") {
       searchArray = apiData.Search;
       searchDiv.innerHTML = "";
@@ -73,9 +87,9 @@ async function getData(searchQuery) {
         searchDiv.insertAdjacentHTML(
           "beforeend",
           `
-                <div class="search_result" id="${element.imdbID}">
-                  <div class="search_img_div">
-                    <img src="${poster}" alt="photo not included" />
+                <div class="search_result" id="${element.imdbID}" ">
+                  <div class="search_img_div ">
+                    <img src="${poster}" alt="photo not found in server" />
                   </div>
                   <div class="search_detail">
                     <h2>${element.Title}</h2>
@@ -85,12 +99,60 @@ async function getData(searchQuery) {
                   `
         );
       });
+
+      //adding eventlistener to searchResult and delegating event
+      searchDiv.addEventListener("click", (event) => {
+        const searchResult_div = event.target.closest(".search_result");
+        if (searchResult_div) {
+          // ShowMoviedetail(searchResult_div.id);
+          getMovieDetails(searchResult_div.id);
+        }
+        else{
+          return;
+        }
+      });
     }
   } catch (error) {
     console.error(error.message);
   }
 }
 
+//gets movie details from API after a click on movie through search result
+async function getMovieDetails(movieID) {
+  this.movieID=movieID
+  const url = `http://www.omdbapi.com/?i=${this.movieID}&apikey=fc1fef96&plot=full`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+    const detail = await response.json();
+
+    if (detail.Response != "False") {
+      showMovieDetail(detail)
+    }
+  }catch(error){
+    console.error(error.message)
+  }
+  
+} 
+
+//Shows movie detail in DOM
+function showMovieDetail(movieDetailObject){
+  searchToSeeMovies.textContent=""
+  moviePoster.src=isPosterAvailable(movieDetailObject);
+  movieTitle.textContent=movieDetailObject.Title;
+  releaseDate.textContent="Release Date: "+movieDetailObject.Released;
+  runTime.textContent=movieDetailObject.Runtime;
+  plot.textContent="Plot: "+"''"+movieDetailObject.Plot+"''";
+  actors.textContent="Actors: "+movieDetailObject.Actors;
+  language.textContent="Language: "+movieDetailObject.Language;
+  rating.textContent=movieDetailObject.imdbRating+"⭐";
+}
+
+
+//checks if poster is available or not and returns poster accordingly
 function isPosterAvailable(element) {
   if (element.Poster != "N/A") {
     return element.Poster;
