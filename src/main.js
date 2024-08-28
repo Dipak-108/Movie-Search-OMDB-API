@@ -1,18 +1,22 @@
-searchInput = document.getElementById("search");
-searchDiv = document.getElementsByClassName("search_result_div")[0];
-searchResult = document.getElementsByClassName("search_result");
-searchToSeeMovies=document.getElementById("searchToSeeMovies");
-timeout = null;
+// import { foo } from './JS Components/counter.js';
+
+let searchInput = document.getElementById("search");
+let searchDiv = document.getElementsByClassName("search_result_div")[0];
+let searchResult = document.getElementsByClassName("search_result");
+let searchToSeeMovies=document.getElementById("searchToSeeMovies");
+let timeout = null;
+// foo();
 
 //movieDetail elements
-moviePoster=document.getElementById("movie_poster");
-movieTitle=document.getElementById("movieTitle");
-releaseDate=document.getElementById("movie_release");
-runTime=document.getElementById("runtime");
-plot=document.getElementById("plot");
-actors=document.getElementById("actors");
-language=document.getElementById("language");
-rating=document.getElementById("imdbRating");
+let contentAreaDiv=document.getElementById("content_area");
+let moviePoster=document.getElementById("movie_poster");
+let movieTitle=document.getElementById("movieTitle");
+let releaseDate=document.getElementById("movie_release");
+let runTime=document.getElementById("runtime");
+let plot=document.getElementById("plot");
+let actors=document.getElementById("actors");
+let language=document.getElementById("language");
+let rating=document.getElementById("imdbRating");
 
 
 //while typing the movie name in search field
@@ -50,7 +54,7 @@ function showResult(event) {
   clearTimeout(timeout);
 
   timeout = setTimeout(() => {
-    value = event.target.value;
+    let value = event.target.value;
 
     getSearch(value);
     searchDiv.style.display = "block";
@@ -82,7 +86,7 @@ async function getSearch(searchQuery) {
       searchArray = apiData.Search;
       searchDiv.innerHTML = "";
       searchArray.forEach((element) => {
-        poster = isPosterAvailable(element);
+        let poster = isPosterAvailable(element);
 
         searchDiv.insertAdjacentHTML(
           "beforeend",
@@ -140,8 +144,9 @@ async function getMovieDetails(movieID) {
 
 //Shows movie detail in DOM
 function showMovieDetail(movieDetailObject){
-  searchToSeeMovies.textContent=""
-  moviePoster.src=isPosterAvailable(movieDetailObject);
+  contentAreaDiv.style.display="flex"
+  searchToSeeMovies.textContent=" "
+  moviePoster.src=isPosterAvailable(movieDetailObject);//check if movie poster is available or not
   movieTitle.textContent=movieDetailObject.Title;
   releaseDate.textContent="Release Date: "+movieDetailObject.Released;
   runTime.textContent=movieDetailObject.Runtime;

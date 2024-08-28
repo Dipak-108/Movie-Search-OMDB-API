@@ -124,7 +124,7 @@ a {
 
 /* content area */
 #content_area{
-    display: flex;
+    display: none;
     flex-direction: column;
 }
 
@@ -172,6 +172,7 @@ a {
 
 
 
+
 @media(max-width:550px){
     .nav_bar{
         flex-direction: column;
@@ -192,7 +193,9 @@ a {
 @media(min-width:600px) {
     
 #content_area{
-    display: flex;
+
+    
+    display: none;
     flex-direction: row;
     align-items: center;
     justify-content: center;
